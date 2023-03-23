@@ -63,7 +63,6 @@ Optional parameters:
  - ```-t```: Specify a location to create the temporary files
  - ```-G```: Specify the GPU(s) to run on : either indexed (eg : 0,2) or 'all'. (default: 'all')
  - ```-S```: Simulate *n* multiple GPUs on a single physical device. Used for development only, currently all values above 2 crashed due to memory issues. (default: 0)
- - ```-P```: Port to use when connecting to the socket (default: 54677, only used in batch mode).
 
 **Batching Considerations:** 
 

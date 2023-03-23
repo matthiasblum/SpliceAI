@@ -60,16 +60,20 @@ def prepare_batches(ann, args, tmpdir, prediction_queue,nr_workers):
 def start_workers(prediction_queue, tmpdir, args,devices,mem_per_logical):
     # start server socket 
     s = socket.socket()
-    host = socket.gethostname()  # locahost
-    port = args.port
-    logger.info(f"Starting server: {host}:{port}")
+    host = socket.gethostname()  # localhost
 
     try:
-       s.bind((host,port))
+        s.bind((host, 0))
     except Exception as e:
-        logger.error(f"Cannot bind to port {port} : {e}")
+        logger.error(f"Cannot bind socket: {e}")
         sys.exit(1)
+
+    # Get port picked up by OS
+    _, port = s.getsockname()
+
+    logger.info(f"Starting server: {host}:{port}")
     s.listen(5)
+
     # start client sockets & server threads.
     clientThreads = list()
     serverThreads = list()
@@ -77,7 +81,7 @@ def start_workers(prediction_queue, tmpdir, args,devices,mem_per_logical):
     for device in devices:
         # launch the worker.
         logger.info(f"Starting worker on device {device.name}, output is available under {tmpdir}")
-        cmd = ["python",os.path.join(os.path.dirname(os.path.realpath(__file__)),"batch.py"),"-S",str(args.simulated_gpus),"-M",str(int(mem_per_logical)), "-t",tmpdir,"-d",device.name, '-R', args.reference, '-A', args.annotation, '-T', str(args.tensorflow_batch_size), '-P', str(args.port)]
+        cmd = ["python",os.path.join(os.path.dirname(os.path.realpath(__file__)),"batch.py"),"-S",str(args.simulated_gpus),"-M",str(int(mem_per_logical)), "-t",tmpdir,"-d",device.name, '-R', args.reference, '-A', args.annotation, '-T', str(args.tensorflow_batch_size), '-P', str(port)]
         if args.verbose:
             cmd.append('-V')
         logger.debug(cmd)
