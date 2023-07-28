@@ -10,25 +10,9 @@ SpliceAI source code is provided under the [GPLv3 license](LICENSE). SpliceAI in
 
 ### Installation
 
-This release can most easily be used as a docker container: 
-
+SpliceAI can be installed from the [github repository](https://github.com/matthiasblum/SpliceAI.git):
 ```sh
-docker pull cmgantwerpen/spliceai_v1.3:latest
-
-docker run --gpus all cmgantwerpen/spliceai_v1.3:latest spliceai -h 
-```
-
-
-The simplest way to install (the original version of) SpliceAI is through pip or conda:
-```sh
-pip install spliceai
-# or
-conda install -c bioconda spliceai
-```
-
-Alternately, SpliceAI can be installed from the [github repository](https://github.com/invitae/SpliceAI.git):
-```sh
-git clone https://github.com/invitae/SpliceAI.git
+git clone https://github.com/matthiasblum/SpliceAI.git
 cd SpliceAI
 python setup.py install
 ```
